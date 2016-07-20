@@ -91,11 +91,47 @@ function displayTree(obj){
 
 
 
+
+
+var matches = [];
+
+function filterList(obj){
+
+  var input = document.getElementById("filterinput").value;
+
+  for(var index in obj){
+
+    var item_name = '';
+    item_name += obj[index].name;
+
+    if(item_name.indexOf(input) > -1)
+
+    {
+      if(obj[index].type == "dir")
+        matches.push(obj[index]);
+      else if(obj[index].type == "file")
+        matches.push(obj[index]);
+
+    }
+
+    else if(obj[index].children){
+      filterList(obj[index].children);
+    }
+
+  }
+
+  return matches;
+
+}
+
+
 function searchList(){
 
-  var ul = displayTree(folders);
+  filterList(folders);
+  var ul = displayTree( matches);
   document.getElementById('folders').innerHTML = '';
   document.getElementById('folders').appendChild(ul);
+  matches = [];
 
 }
 
